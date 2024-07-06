@@ -1,9 +1,12 @@
 const express = require('express');
+const app = express();
 const userRouter = express.Router();
-const { userType , signInBody } = require('../types');
+const { userType , signInBody, updateUserBody } = require('../types');
 const { User } = require('../db');
 const jwt = require('jsonwebtoken');
+const {authMiddleware} = require("../middleware/middleware");
 const { JWT_SECRET } = require('../Config');
+
 userRouter.post("/signup",async(req,res)=>{
    const user = req.body;
    const isUserPayloadValid = userType.safeParse(user);
@@ -77,4 +80,70 @@ userRouter.post("/signin",async(req,res)=>{
     }
 
 });
+
+userRouter.use(authMiddleware);
+userRouter.put("/",async(req,res)=>{
+    const putBody = req.body;
+    const userId = req.userId;
+    const updateUserBodyValid = updateUserBody.safeParse(putBody);
+    if(!updateUserBodyValid.success) {
+        res.json({
+            msg:"Invalid input"
+        });
+        return;
+    }
+    try {
+        await User.updateOne({
+            _id:userId, 
+        }, {
+            firstName: putBody.firstname,
+            lastName: putBody.lastname,
+            password: putBody.password
+        });
+        res.json({
+            msg:"User Updated"
+        })
+    } catch(e) {
+        res.json({
+            e
+        })
+    }
+    console.log(req.userId);
+});
+
+userRouter.get("/bulk",async (req,res)=>{
+    const filter = req.query.filter;
+    // console.log(req.query);
+    console.log(filter);
+    if(!filter) {
+        res.json({
+            msg:"no filter provided"
+        });
+        return;
+    }
+    try {
+        const users = await User.find({
+            "$or":[
+                {
+                    firstName: {
+                        '$regex': filter
+                    }
+                }, {
+                    lastName: {
+                        '$regex': filter
+                    }
+                }
+            ]
+        });
+        console.log(users);
+        res.json({
+            users
+        })
+    } catch(e) {
+        res.json({
+            e
+        })
+    }
+})
+
 module.exports = userRouter;
