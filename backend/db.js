@@ -1,4 +1,5 @@
 const mongoose = require('mongoose'); 
+const { Schema } = require('zod');
 mongoose.connect("mongodb+srv://nikhilchawla9013:WGe2NxcBcRruoZHN@paytm.6eusu7v.mongodb.net/paytm");
 
 const userSchema = new mongoose.Schema({ 
@@ -20,12 +21,27 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         require: true
+    },
+    isActive: {
+        type: Boolean,
+        default: true
     }
 }) ;
+
+
+const bankSchema = new mongoose.Schema({
+    userId: {
+        type: Schema.Types.Objectid,
+        ref: "User"
+    }
+})
 
   
 const User = new mongoose.model("User", userSchema);
 
+const Bank = new mongoose.model("Bank", bankSchema);
+
 module.exports = {
-    User
+    User,
+    Bank
 }
