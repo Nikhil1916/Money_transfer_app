@@ -29,19 +29,24 @@ const userSchema = new mongoose.Schema({
 }) ;
 
 
-const bankSchema = new mongoose.Schema({
+const accountSchema = new mongoose.Schema({
     userId: {
-        type: Schema.Types.Objectid,
-        ref: "User"
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true
+    },
+    amount: {
+        type: Number,//in amount last 2 digit are decimal places just storing in integer as per harkirat as per standard
+        require: true
     }
 })
 
   
 const User = new mongoose.model("User", userSchema);
 
-const Bank = new mongoose.model("Bank", bankSchema);
+const Account = new mongoose.model("Account", accountSchema);
 
 module.exports = {
     User,
-    Bank
+    Account
 }

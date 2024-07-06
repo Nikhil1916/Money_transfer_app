@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const userRouter = express.Router();
 const { userType , signInBody, updateUserBody } = require('../types');
-const { User } = require('../db');
+const { User, Account } = require('../db');
 const jwt = require('jsonwebtoken');
 const {authMiddleware} = require("../middleware/middleware");
 const { JWT_SECRET } = require('../Config');
@@ -10,7 +10,6 @@ const { JWT_SECRET } = require('../Config');
 userRouter.post("/signup",async(req,res)=>{
    const user = req.body;
    const isUserPayloadValid = userType.safeParse(user);
-   console.log(isUserPayloadValid.error);
    if(!isUserPayloadValid.success) {
     res.status(411).json({
         'msg': 'invalid input'
@@ -23,7 +22,7 @@ userRouter.post("/signup",async(req,res)=>{
     const userCheck = await User.findOne({
         userName: username
     });
-    console.log(userCheck);
+    (userCheck);
     if(userCheck) {
         res.status(411).json({
             'msg': 'User already there'
@@ -35,8 +34,13 @@ userRouter.post("/signup",async(req,res)=>{
             lastName: lastname,
             password: password
         });
+        console.log(userR);
+        await Account.create({
+            userId: userR._id,
+            amount:1+Math.ceil(Math.random()*1000)
+        })
+
         var token = jwt.sign({ userId:userR._id }, JWT_SECRET);
-        console.log(token);
         res.json(
             {
                 userId: "userId of newly added user is "+ userR._id,
@@ -108,21 +112,12 @@ userRouter.put("/",async(req,res)=>{
             e
         })
     }
-    console.log(req.userId);
 });
 
 userRouter.get("/bulk",async (req,res)=>{
-    const filter = req.query.filter;
-    // console.log(req.query);
-    console.log(filter);
-    if(!filter) {
-        res.json({
-            msg:"no filter provided"
-        });
-        return;
-    }
+    const filter = req.query.filter || "";
     try {
-        const users = await User.find({
+        let users = await User.find({
             "$or":[
                 {
                     firstName: {
@@ -135,7 +130,14 @@ userRouter.get("/bulk",async (req,res)=>{
                 }
             ]
         });
-        console.log(users);
+        users = users?.map((user)=>{
+            return {
+                "_id": user?._id,
+                "userName": user?.userName,
+                "firstName": user?.firstName,
+                "lastName": user?.lastName,
+            }
+        })
         res.json({
             users
         })
