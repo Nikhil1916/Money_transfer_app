@@ -12,7 +12,9 @@ userRouter.post("/signup",async(req,res)=>{
    const isUserPayloadValid = userType.safeParse(user);
    if(!isUserPayloadValid.success) {
     res.status(411).json({
-        'msg': 'invalid input'
+        'msg': 'invalid input',
+        'error_path_key': isUserPayloadValid?.error?.issues[0]?.path[0],
+        'err_message': isUserPayloadValid?.error?.issues[0]?.message
     });
     return;
    }
@@ -44,7 +46,12 @@ userRouter.post("/signup",async(req,res)=>{
         res.json(
             {
                 userId: "userId of newly added user is "+ userR._id,
-                token
+                token,
+                user: {
+                    userName: username,
+                    firstName: firstname,
+                    lastName: lastname,
+                }
             }
         )
     }
@@ -79,7 +86,12 @@ userRouter.post("/signin",async(req,res)=>{
         }
         const token = jwt.sign({ userId:userCheck._id }, JWT_SECRET);
         res.json({
-            token
+            token,
+            user: {
+                username: userCheck.userName,
+                firstname: userCheck.firstName,
+                lastname: userCheck.lastName,
+            }
         })
     }
 

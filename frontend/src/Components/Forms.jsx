@@ -1,7 +1,7 @@
 import Button from "./Button";
 import InputC from "./InputC"
 import React, { useEffect, useRef } from 'react';
-const Forms = ({heading, subHeading, btnLabel="Sign Up" , inputConfig , valueSet}) => {
+const Forms = ({heading, subHeading, btnLabel="Sign Up" , inputConfig , valueSet, SigninUpNavigator}) => {
   const itemsRef = useRef([]);
   useEffect(() => {
     itemsRef.current = itemsRef.current.slice(0, inputConfig.length);
@@ -23,6 +23,9 @@ const Forms = ({heading, subHeading, btnLabel="Sign Up" , inputConfig , valueSet
             })
           }
           <Button btnName={btnLabel} onClick={setRef} />
+          {
+            SigninUpNavigator && <SigninUpNavigator/>
+          }
       </div>
     </div>
   )
