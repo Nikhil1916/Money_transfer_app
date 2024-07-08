@@ -1,5 +1,5 @@
-
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+// import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Signin from "./Signin";
 import Signup from "./Signup";
 import Dashboard from "./Dashboard";
@@ -7,26 +7,29 @@ import Send from "./Send";
 const Body = () => {
   const routes = createBrowserRouter([
     {
+      path: '/',
+      element: <Signup/>
+    },
+    {
         path: '/signin',
-        Component: <Signin/>
+        element: <Signin/>
     },
     {
         path: '/signup',
-        Component: <Signup/>
+        element: <Signup/>
     },
     {
         path: '/dashboard',
-        Component: <Dashboard/>
+        element: <Dashboard/>
     },
     {
-        path: 'send',
-        Component: <Send/>
-    }
-  ])
+        path: '/send',
+        element: <Send/>
+    },
+
+  ]);
   return (
-    <div>
-        <RouterProvider router={routes}></RouterProvider>
-    </div>
+        <RouterProvider router={routes}/>
   )
 }
 
