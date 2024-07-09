@@ -158,6 +158,24 @@ userRouter.get("/bulk",async (req,res)=>{
             e
         })
     }
+});
+
+userRouter.get("/",async(req,res)=>{
+    console.log(req.query.id);
+    const userId = req.query.id || req.userId;
+    const data = await User.findOne({
+        _id: userId
+    });
+    const account = await Account.findOne({
+         userId
+    });
+    
+    return res.json({
+        username: data.userName,
+        firstname: data.firstName,
+        lastname: data.lastName,
+        account
+    })
 })
 
 module.exports = userRouter;

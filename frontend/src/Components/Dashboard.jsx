@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Header from './Header';
+import axios from 'axios';
+import { SubBody } from './SubBody';
 const Dashboard = () => {
   return (
     <div>
-      <Header/>
+    {/* {balance.current} */}
+      {/* <Header/> */}
+      <SubBody/>
     </div>
   )
 }

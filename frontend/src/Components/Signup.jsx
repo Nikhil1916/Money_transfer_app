@@ -27,8 +27,8 @@ const Signup = () => {
       //we need to hash our password as well
       const data = await axios.post("http://localhost:3000/api/vi/user/signup", obj);
       console.log(data.data);
-      localStorage.setItem("token",JSON.stringify(data.data.token));
-      navigate("/dashboard");
+      localStorage.setItem("token",(data.data.token));
+      navigate("/browse");
     } catch(e) {
       console.warn(e.response.data);
     }

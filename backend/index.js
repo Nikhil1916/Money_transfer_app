@@ -5,7 +5,7 @@ const PORT = 3000;
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const corsOptions = { 
-    origin : ['http://localhost:5500'], 
+    origin : ['http://localhost:5173'], 
 } 
 
 app.use(bodyParser.json());

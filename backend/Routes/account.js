@@ -9,7 +9,15 @@ accountRouter.get("/balance",async(req,res)=>{
     const account = await Account.findOne({
         userId
     });
-    if(account.amount) {
+
+    //added this as temp fix for users without non account i.e. users created in the intial phase
+    if(!account) {
+        await Account.create({
+            userId,
+            amount:1+Math.ceil(Math.random()*1000)
+        })
+    }
+    if(account?.amount) {
         res.status(200).json({
             balance: account.amount
         })

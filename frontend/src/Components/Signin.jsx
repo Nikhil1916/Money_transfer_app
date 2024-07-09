@@ -8,6 +8,10 @@ const Signin = () => {
   const navigate = useNavigate();
   // console.log(1);
   useEffect(()=>{
+    if(localStorage.getItem('token')) {
+      navigate("/browse");
+      return;
+    }
     if(itemsVal.length>0) {
       // console.log(2);
       const obj = {};
@@ -24,8 +28,8 @@ const Signin = () => {
     try {
       const data = await axios.post("http://localhost:3000/api/vi/user/signin", obj);
       console.log(data.data);
-      navigate("/dashboard");
-      localStorage.setItem("token",JSON.stringify(data.data.token));
+      navigate("/browse");
+      localStorage.setItem("token",(data.data.token));
       localStorage.setItem("user",JSON.stringify(data.data.user));
     } catch(e) {
       console.warn(e);
