@@ -12,9 +12,9 @@ export const getUserList = async (name='') => {
   return data?.data?.users;
 };
 
-export const getUser = async () => {
+export const getUser = async (id=null) => {
     const data  = await axios.get(
-      `http://localhost:3000/api/vi/user`,
+      `http://localhost:3000/api/vi/user${id ? '?id='+id : ''}`,
       {
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
@@ -22,6 +22,7 @@ export const getUser = async () => {
       }
     );
     console.log(data);
+    return data.data;
     // return data?.data?.users;
   };
   

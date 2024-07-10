@@ -33,7 +33,8 @@ accountRouter.post("/transfer",async(req,res)=>{
     const session = await mongoose.startSession();
     
     session.startTransaction();
-    const {amount , to} = req.body;
+    let {amount , to} = req.body;
+    amount = +amount;
     const userId = req.userId;
     const accountFrom = await Account.findOne({
         userId
