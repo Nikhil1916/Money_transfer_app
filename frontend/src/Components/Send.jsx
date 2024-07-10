@@ -62,10 +62,10 @@ const Send = () => {
 
   return (
     <div className="bg-gray-200 w-screen h-screen flex justify-center items-center">
-      <div className="bg-white p-4 w-96  shadow-md rounded-lg">
+      <div className="bg-white p-4 w-96  shadow-md rounded-lg mt-[-90px]">
         <h1 className="font-bold text-2xl mb-6 text-center">Send Money</h1>
         <div className="flex gap-2 justify-center items-center">
-          <div className="bg-gray-200 p-2 rounded-full mb-2">
+          <div className="bg-gray-200 p-2 rounded-full min-w-[38px] flex justify-center items-center mb-2">
             {sendTo?.firstname?.substring(0, 1)?.toUpperCase() +
               sendTo?.lastname?.substring(0, 1)?.toUpperCase()}
           </div>

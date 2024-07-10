@@ -19,8 +19,8 @@ const Header = () => {
         <h1 className='font-bold text-lg'>Payments App</h1>
         <div className='flex gap-2 items-center'>
             <p>Hello, User</p>
-            <div className='relative flex items-center cursor-pointer' onMouseEnter={()=>setShowDropdown(true)}>
-              <div className='bg-gray-200 p-2 rounded-full'>
+            <div className='relative flex items-center cursor-pointer' onMouseEnter={()=>setShowDropdown(true)} onMouseLeave={()=>setShowDropdown(false)}>
+              <div className='bg-gray-200 p-2 rounded-full min-w-[38px] flex justify-center items-center'>
                   {user?.firstname?.substring(0,1)?.toUpperCase()+user?.lastname?.substring(0,1)?.toUpperCase()}
               </div>
             <div>
