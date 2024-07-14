@@ -2,27 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { getUserList } from '../Utils/functions';
 import Shimmer from './Schimmer';
 import { Link } from 'react-router-dom';
+import useDebounce from '../Utils/useDebounce';
 
 const UserList = ({name=''}) => {
-  const [users, setUsers] = useState();
-  console.log(name);
-  useEffect(()=>{
-    const timeoutId = setTimeout(async()=>{
-      const data = await getUserList(name);
-      // console.log("ok");
-      console.log(data);
-      setUsers(data);
-    },200);
-    return ()=> {
-      clearTimeout(timeoutId);
-    }
-  },[name]);
-
-  async function getUsers(name) {
-    const data = await getUserList(name);
-    setUsers(data);
-  }
-  
+  // const [users, setUsers] = useState();
+  // console.log(1);
+  const users = useDebounce(name, getUserList);
+  // console.log(2);
   if(!users) {
     return (
       <Shimmer/>

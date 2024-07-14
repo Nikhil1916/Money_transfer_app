@@ -4,7 +4,6 @@ import UserList  from './UserList'
 
 const UserSearch = () => {
   const [userName, setUserName] = useState(null);
-  console.log(userName);
   return (
     <div className='mt-2'>
         <h1 className='font-bold text-lg'>Users</h1>
