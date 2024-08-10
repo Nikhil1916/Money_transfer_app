@@ -60,6 +60,22 @@ const Send = () => {
   navigate("/");
   }
 
+const onChangeText = (text, e) => {
+  // Only allow "number & ." input
+  const cleanNumber = text?.replace(/[^0-9.]/g, "")
+
+  // Only take first 2 values from split. Ignore the rest.
+  const strAfterDot = cleanNumber?.split('.', 2)[1] 
+
+  if (strAfterDot?.length <= 2){
+    console.log("setValue now")
+  } else {
+    console.log("Should not be allowed. You can trim the value yourself.");
+    // e?.preventDefault();
+    return false;
+  }
+  return true;
+}
   return (
     <div className="bg-gray-200 w-screen h-screen flex justify-center items-center">
       <div className="bg-white p-4 w-96  shadow-md rounded-lg mt-[-90px]">
@@ -76,7 +92,7 @@ const Send = () => {
 
         <div>
           <p className="pl-2">Amount (in Rs)</p>
-          <InputC placeholder="Enter amount"  itemRef={itemRef} i={0} type="number" />
+          <InputC placeholder="Enter amount"  itemRef={itemRef} i={0} type="number" onChangeText={onChangeText} />
           <div onClick={onSubmit} className={`bg-green-400 text-white ml-2 rounded-md p-1 w-[340px] text-center cursor-pointer`}>
             Initiate Transfer
           </div>
