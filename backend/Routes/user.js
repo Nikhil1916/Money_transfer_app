@@ -1,3 +1,4 @@
+//todo add throw error instead of sending error manually, add constants for error types
 const express = require('express');
 const app = express();
 const userRouter = express.Router();
